@@ -4,6 +4,7 @@ import styles from '../Login/Login.module.scss'
 import CInput from "../../../components/FormInputs/CInput";
 import MainButton from "../../../components/MainButton/Button";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Registration() {
   const navigate = useNavigate()
@@ -16,9 +17,24 @@ function Registration() {
   })
 
   const onSubmit = (e) => {
-    navigate('/')
     e.preventDefault();
     console.log("eventtt", e)
+    axios
+      .post(`http://localhost:3000/api/register`, {
+        username: state.username,
+        password: state.password,
+        confirm_password: state.password2,
+        email: state.email
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.data.status === 200) 
+        navigate("/");
+      })
+      .catch(function (error) {
+        console.log(error);
+        navigate("/");
+      });
   }
 
    const handleChangeField = (e) => {
@@ -38,30 +54,30 @@ function Registration() {
                               size="medium"
                               fullWidth
                               placeholder='Name'
-                                type="text"
-                                name="username"
-                                value={state.username}
-                                onChange={handleChangeField}
+                              type="text"
+                              name="name"
+                              value={state.name}
+                              onChange={handleChangeField}
                             />
                             <CInput withBorder
                               labelText="Username"
                               size="medium"
                               fullWidth
                               placeholder='Username'
-                                type="text"
-                                name="username"
-                                value={state.username}
-                                onChange={handleChangeField}
+                              type="text"
+                              name="username"
+                              value={state.username}
+                              onChange={handleChangeField}
                             />
                             <CInput withBorder
                               labelText="Username"
                               size="medium"
                               fullWidth
                               placeholder='Email'
-                                type="mail"
-                                name="username"
-                                value={state.username}
-                                onChange={handleChangeField}
+                              type="mail"
+                              name="email"
+                              value={state.email}
+                              onChange={handleChangeField}
                             />
                             <CInput
                               withBorder
@@ -69,10 +85,10 @@ function Registration() {
                               size="medium"
                               fullWidth
                               placeholder='password'
-                                type="password"
-                                name="password"
-                                value={state.password}
-                                onChange={handleChangeField}
+                              type="password"
+                              name="password"
+                              value={state.password}
+                              onChange={handleChangeField}
                                 />
                             <CInput
                               withBorder
@@ -80,10 +96,10 @@ function Registration() {
                               size="medium"
                               fullWidth
                               placeholder='Repeat password'
-                                type="password"
-                                name="password2"
-                                value={state.password}
-                                onChange={handleChangeField}
+                              type="password"
+                              name="password2"
+                              value={state.password2}
+                              onChange={handleChangeField}
                                 />
                       <MainButton
                         text="Submit"
